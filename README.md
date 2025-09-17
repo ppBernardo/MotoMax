@@ -211,5 +211,21 @@ npm run build
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 👨‍💻 Autor
+
+**MotoWeb Developer**
+- GitHub: [@seu-usuario](https://github.com/seu-usuario)
+- Email: developer@motoweb.com
+
+## 🙏 Agradecimentos
+
+- [shadcn/ui](https://ui.shadcn.com/) - Componentes de interface
+- [Tailwind CSS](https://tailwindcss.com/) - Framework de estilos
+- [Lucide](https://lucide.dev/) - Ícones
+- [React](https://reactjs.org/) - Biblioteca de interface
 
 ---
