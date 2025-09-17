@@ -1,9 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Eye, MessageCircle, Star, Zap, Shield } from "lucide-react";
+import { Heart, Star, Zap, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState, memo, useCallback, useRef } from "react";
+import { memo, useCallback } from "react";
+import { useFavorites } from "@/contexts/FavoritesContext";
 
 interface MotorcycleProps {
   id: string;
@@ -21,9 +22,7 @@ interface MotorcycleProps {
 
 const MotorcycleCard = memo(({ motorcycle }: { motorcycle: MotorcycleProps }) => {
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = useState(false);
-  const [heartAnimation, setHeartAnimation] = useState<string>('');
-  const heartRef = useRef<HTMLButtonElement>(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
   
   const formatPrice = useCallback((price: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -33,35 +32,20 @@ const MotorcycleCard = memo(({ motorcycle }: { motorcycle: MotorcycleProps }) =>
   }, []);
 
   const handleLike = useCallback(() => {
-    const newLikedState = !isLiked;
-    setIsLiked(newLikedState);
-    
-    // Trigger animation
-    if (newLikedState) {
-      setHeartAnimation('heart-liked');
-      // Add glow effect after heartbeat
-      setTimeout(() => {
-        setHeartAnimation('heart-glow');
-      }, 1300);
-    } else {
-      setHeartAnimation('heart-pop');
-      setTimeout(() => {
-        setHeartAnimation('');
-      }, 300);
-    }
-  }, [isLiked]);
+    toggleFavorite(motorcycle.id);
+  }, [toggleFavorite, motorcycle.id]);
 
   const handleViewDetails = useCallback(() => {
     navigate(`/moto/${motorcycle.id}`);
   }, [navigate, motorcycle.id]);
 
   return (
-    <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-0 bg-card/50 backdrop-blur-sm overflow-hidden">
+    <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm overflow-hidden">
       <div className="relative overflow-hidden">
         <img 
           src={motorcycle.image} 
           alt={motorcycle.name}
-          className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-56 object-cover"
         />
         
         {/* Gradient overlay */}
@@ -87,35 +71,31 @@ const MotorcycleCard = memo(({ motorcycle }: { motorcycle: MotorcycleProps }) =>
         </div>
 
         {/* Action buttons */}
-        <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <Button 
-            ref={heartRef}
             size="sm" 
             variant="secondary" 
-            className={`h-10 w-10 p-0 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg transition-all duration-300 ${
-              isLiked ? 'scale-110 shadow-red-200 shadow-lg' : 'hover:scale-105'
-            } ${heartAnimation}`}
+            className="h-10 w-10 p-0 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg transition-colors duration-200"
             onClick={handleLike}
           >
-            <Heart className={`h-4 w-4 transition-all duration-300 ${
-              isLiked 
+            <Heart className={`h-4 w-4 transition-colors duration-200 ${
+              isFavorite(motorcycle.id)
                 ? 'fill-red-500 text-red-500' 
                 : 'text-gray-600 hover:text-red-400'
             }`} />
           </Button>
-          <Button 
-            size="sm" 
-            variant="secondary" 
-            className="h-10 w-10 p-0 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg"
-          >
-            <Eye className="h-4 w-4" />
-          </Button>
         </div>
 
         {/* Rating */}
-        <div className="absolute bottom-4 left-4 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-          <span className="text-xs font-semibold">4.8</span>
+        <div className="absolute bottom-4 left-4 flex items-center gap-1 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-md border border-white/20">
+          <div className="flex items-center gap-0.5">
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+          </div>
+          <span className="text-xs font-semibold text-gray-800">4.8</span>
         </div>
       </div>
 
@@ -168,21 +148,12 @@ const MotorcycleCard = memo(({ motorcycle }: { motorcycle: MotorcycleProps }) =>
           </div>
         </div>
 
-        <div className="flex gap-3">
-          <Button 
-            className="flex-1 bg-gradient-primary border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-            onClick={handleViewDetails}
-          >
-            Ver Detalhes
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="px-4 hover:bg-primary hover:text-white transition-all duration-300"
-          >
-            <MessageCircle className="h-4 w-4" />
-          </Button>
-        </div>
+        <Button 
+          className="w-full bg-gradient-primary border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
+          onClick={handleViewDetails}
+        >
+          Ver Detalhes
+        </Button>
       </CardContent>
     </Card>
   );

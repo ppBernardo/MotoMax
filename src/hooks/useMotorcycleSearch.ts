@@ -16,6 +16,7 @@ export interface MotorcycleData {
 }
 
 export interface SearchFilters {
+  searchText: string;
   brand: string;
   type: string;
   priceMin: number;
@@ -24,6 +25,7 @@ export interface SearchFilters {
 }
 
 const defaultFilters: SearchFilters = {
+  searchText: '',
   brand: '',
   type: '',
   priceMin: 0,
@@ -36,6 +38,19 @@ export const useMotorcycleSearch = (motorcycles: MotorcycleData[]) => {
 
   const filteredMotorcycles = useMemo(() => {
     return motorcycles.filter((moto) => {
+      // Filtro por texto de busca (nome, marca, features)
+      if (filters.searchText) {
+        const searchLower = filters.searchText.toLowerCase();
+        const matchesSearch = 
+          moto.name.toLowerCase().includes(searchLower) ||
+          moto.brand.toLowerCase().includes(searchLower) ||
+          moto.features.some(feature => feature.toLowerCase().includes(searchLower));
+        
+        if (!matchesSearch) {
+          return false;
+        }
+      }
+
       // Filtro por marca
       if (filters.brand && moto.brand.toLowerCase() !== filters.brand.toLowerCase()) {
         return false;

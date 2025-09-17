@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollAnimation from "@/components/ScrollAnimation";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { 
   ArrowLeft, 
   Heart, 
@@ -232,8 +233,8 @@ const MotorcycleDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
   
   const motorcycle = motorcycleData[id || "1"];
 
@@ -249,8 +250,8 @@ const MotorcycleDetails = () => {
   };
 
   const handleLike = useCallback(() => {
-    setIsLiked(prev => !prev);
-  }, []);
+    toggleFavorite(motorcycle.id);
+  }, [toggleFavorite, motorcycle.id]);
 
   const nextImage = useCallback(() => {
     setSelectedImage(prev => (prev + 1) % motorcycle.images.length);
@@ -278,11 +279,11 @@ const MotorcycleDetails = () => {
           <div className="container mx-auto px-4 pb-12">
             <ScrollAnimation animation="fadeInUp" delay={0.1}>
               <div className="max-w-4xl">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-4 mb-6">
                   <Button 
                     variant="ghost" 
                     onClick={() => navigate('/catalogo')}
-                    className="flex items-center gap-2 text-white hover:bg-white/20 backdrop-blur-sm"
+                    className="flex items-center gap-2 text-white hover:bg-white/20 backdrop-blur-sm bg-black/20 border border-white/20"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     Voltar ao Catálogo
@@ -293,60 +294,65 @@ const MotorcycleDetails = () => {
                       variant="outline" 
                       size="sm"
                       onClick={handleLike}
-                      className={`backdrop-blur-sm border-white/30 ${
-                        isLiked 
+                      className={`backdrop-blur-sm border-white/30 bg-black/20 ${
+                        isFavorite(motorcycle.id)
                           ? 'bg-red-500 border-red-500 text-white' 
                           : 'text-white hover:bg-white/20'
                       }`}
                     >
-                      <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+                      <Heart className={`h-4 w-4 ${isFavorite(motorcycle.id) ? 'fill-current' : ''}`} />
                     </Button>
                     <Button 
                       variant="outline" 
                       size="sm"
-                      className="backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+                      className="backdrop-blur-sm border-white/30 text-white hover:bg-white/20 bg-black/20"
                     >
                       <Share2 className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-4 mb-6">
                   <Badge 
                     className={`${
                       motorcycle.condition === 'nova' 
-                        ? "bg-green-500 text-white" 
-                        : "bg-blue-500 text-white"
-                    } backdrop-blur-sm`}
+                        ? "bg-green-500 text-white shadow-lg" 
+                        : "bg-blue-500 text-white shadow-lg"
+                    } backdrop-blur-sm bg-black/20 border border-white/20 px-4 py-2 text-sm font-semibold`}
                   >
                     {motorcycle.condition === 'nova' ? 'Nova' : 'Seminova'}
                   </Badge>
                   
-                  <div className="flex items-center gap-1 text-white">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-medium">4.8</span>
-                    <span className="text-sm text-white/70">(127 avaliações)</span>
+                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/20">
+                    <div className="flex items-center gap-0.5">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                    </div>
+                    <span className="text-xs font-semibold text-white">4.8</span>
                   </div>
                 </div>
                 
-                <h1 className="text-5xl lg:text-6xl font-bold text-white mb-4">
+                <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 drop-shadow-2xl">
                   {motorcycle.brand} {motorcycle.name}
                 </h1>
                 
-                <div className="flex items-center gap-6 text-white/80">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>{motorcycle.year}</span>
+                <div className="flex flex-wrap items-center gap-4 text-white">
+                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                    <Calendar className="h-4 w-4 text-white" />
+                    <span className="text-sm font-medium">{motorcycle.year}</span>
                   </div>
                   {motorcycle.mileage && (
-                    <div className="flex items-center gap-2">
-                      <Gauge className="h-4 w-4" />
-                      <span>{motorcycle.mileage.toLocaleString()} km</span>
+                    <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                      <Gauge className="h-4 w-4 text-white" />
+                      <span className="text-sm font-medium">{motorcycle.mileage.toLocaleString()} km</span>
                     </div>
                   )}
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    <span>São Paulo, SP</span>
+                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+                    <MapPin className="h-4 w-4 text-white" />
+                    <span className="text-sm font-medium">São Paulo, SP</span>
                   </div>
                 </div>
               </div>
@@ -422,7 +428,7 @@ const MotorcycleDetails = () => {
             {/* Enhanced Image Gallery */}
             <ScrollAnimation animation="fadeInUp" delay={0.3}>
               <div className="mb-8">
-                <div className="relative group">
+                <div className="relative group overflow-hidden rounded-2xl">
                   <img 
                     src={motorcycle.images[selectedImage]} 
                     alt={motorcycle.name}
@@ -438,17 +444,17 @@ const MotorcycleDetails = () => {
                     variant="outline"
                     size="sm"
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/95 backdrop-blur-sm hover:bg-white border-2 border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="h-5 w-5 text-gray-800" />
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/95 backdrop-blur-sm hover:bg-white border-2 border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-5 w-5 text-gray-800" />
                   </Button>
                 </div>
               </div>

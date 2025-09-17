@@ -1,8 +1,21 @@
 import { MotorcycleData } from "@/hooks/useMotorcycleSearch";
 import hondaImage from "@/assets/honda-cbr600rr.jpg";
-import yamahaImage from "@/assets/yamaha-mt09.jpg";
 import kawasakiImage from "@/assets/kawasaki-ninja400.jpg";
 import suzukiImage from "@/assets/suzuki-gsxs750.jpg";
+import bmwImage from "@/assets/bmws100rr.jpg";
+import yamahaImage from "@/assets/yamaha-mt-09-abs-cinza.jpg";
+import r3Image from "@/assets/r3.png";
+import ducatiImage from "@/assets/panigale-v2.jpg";
+import gsx750Image from "@/assets/GSX-S750-2020-08-600x324.jpg";
+import cb650rImage from "@/assets/cb650r.jpg";
+import ktm390dukeImage from "@/assets/KTM 390 Duke.jpg";
+import triumphStreetTriple765Image from "@/assets/triumphStreetTriple.jpg";
+import apriliaRS660Image from "@/assets/apriliaRS660.jpg";
+import harleyDavidsonSportsterImage from "@/assets/harleyDavidsonSportster.jpg";
+import kawasakiZ900Image from "@/assets/kawasakiZ900.jpg";
+import yamahaR1Image from "@/assets/yamaha2.jpg";
+import hondaCB1000RImage from "@/assets/hondaCB1000R.webp";
+import suzukiGSXR1000Image from "@/assets/suzukiGSXR1000.webp";
 
 export const motorcyclesDatabase: MotorcycleData[] = [
   {
@@ -55,7 +68,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 8500,
     condition: "seminova",
-    image: suzukiImage,
+    image: gsx750Image,
     features: ["ABS", "Tração", "LED", "Digital"],
     type: "naked"
   },
@@ -68,7 +81,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 708,
     installmentCount: 60,
     condition: "nova",
-    image: hondaImage,
+    image: cb650rImage,
     features: ["ABS", "LED", "Digital", "Controle de Tração"],
     type: "naked"
   },
@@ -82,7 +95,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 8000,
     condition: "seminova",
-    image: yamahaImage,
+    image: r3Image,
     features: ["ABS", "LED", "Painel Digital"],
     type: "esportiva"
   },
@@ -95,7 +108,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 1315,
     installmentCount: 60,
     condition: "nova",
-    image: hondaImage,
+    image: ducatiImage,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital"],
     type: "esportiva"
   },
@@ -109,7 +122,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 12000,
     condition: "seminova",
-    image: yamahaImage,
+    image: bmwImage,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital", "Quick Shifter"],
     type: "esportiva"
   },
@@ -122,7 +135,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 482,
     installmentCount: 60,
     condition: "nova",
-    image: kawasakiImage,
+    image: ktm390dukeImage,
     features: ["ABS", "LED", "Digital", "Controle de Tração"],
     type: "naked"
   },
@@ -136,7 +149,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 6500,
     condition: "seminova",
-    image: suzukiImage,
+    image: triumphStreetTriple765Image,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital"],
     type: "naked"
   },
@@ -149,7 +162,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 765,
     installmentCount: 60,
     condition: "nova",
-    image: hondaImage,
+    image: apriliaRS660Image,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital", "Quick Shifter"],
     type: "esportiva"
   },
@@ -163,7 +176,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 15000,
     condition: "seminova",
-    image: yamahaImage,
+    image: harleyDavidsonSportsterImage,
     features: ["ABS", "LED", "Digital", "Cruise Control"],
     type: "custom"
   },
@@ -176,7 +189,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 642,
     installmentCount: 60,
     condition: "nova",
-    image: kawasakiImage,
+    image: kawasakiZ900Image,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital"],
     type: "naked"
   },
@@ -190,7 +203,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 8000,
     condition: "seminova",
-    image: yamahaImage,
+    image: yamahaR1Image,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital", "Quick Shifter"],
     type: "esportiva"
   },
@@ -203,7 +216,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installment: 875,
     installmentCount: 60,
     condition: "nova",
-    image: hondaImage,
+    image: hondaCB1000RImage,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital"],
     type: "naked"
   },
@@ -217,7 +230,7 @@ export const motorcyclesDatabase: MotorcycleData[] = [
     installmentCount: 60,
     mileage: 12000,
     condition: "seminova",
-    image: suzukiImage,
+    image: suzukiGSXR1000Image,
     features: ["ABS", "Controle de Tração", "Modos de Pilotagem", "LED", "Digital", "Quick Shifter"],
     type: "esportiva"
   }

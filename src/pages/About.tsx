@@ -166,7 +166,7 @@ const About = () => {
           <img 
             src={equipeImage} 
             alt="Equipe da loja"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center object-top"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60"></div>
         </div>

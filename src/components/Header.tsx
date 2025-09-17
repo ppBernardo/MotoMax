@@ -1,13 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Search, Menu, Phone, MapPin, Sun, Moon } from "lucide-react";
+import { Search, Menu, Phone, MapPin, Sun, Moon, Heart } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "@/hooks/useTheme";
+import { useFavorites } from "@/contexts/FavoritesContext";
+import logoImage from "@/assets/logo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { favoriteIds } = useFavorites();
 
   return (
     <header className="bg-background border-b sticky top-0 z-50 backdrop-blur-sm">
@@ -33,8 +36,17 @@ const Header = () => {
         {/* Main navigation */}
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center">
-            <Link to="/" className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              MotoMax
+            <Link to="/" className="flex items-center gap-3">
+              <img 
+                src={logoImage} 
+                alt="MotoMax Logo" 
+                className={`h-10 w-auto transition-all duration-300 ${
+                  theme === 'dark' ? 'brightness-0 invert' : ''
+                }`}
+              />
+              <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                MotoMax
+              </span>
             </Link>
           </div>
 
@@ -53,13 +65,36 @@ const Header = () => {
               Catálogo
             </Link>
             <Link 
+              to="/favoritos" 
+              className={`hover:text-primary transition-colors flex items-center gap-2 ${location.pathname === '/favoritos' ? 'text-primary' : ''}`}
+            >
+              <Heart className="h-4 w-4" />
+              Favoritos
+              {favoriteIds.length > 0 && (
+                <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
+                  {favoriteIds.length}
+                </span>
+              )}
+            </Link>
+            <Link 
+              to="/vender-moto" 
+              className={`hover:text-primary transition-colors ${location.pathname === '/vender-moto' ? 'text-primary' : ''}`}
+            >
+              Vender Moto
+            </Link>
+            <Link 
+              to="/financiamento" 
+              className={`hover:text-primary transition-colors ${location.pathname === '/financiamento' ? 'text-primary' : ''}`}
+            >
+              Financiamento
+            </Link>
+            <Link 
               to="/sobre" 
               className={`hover:text-primary transition-colors ${location.pathname === '/sobre' ? 'text-primary' : ''}`}
             >
               Sobre
             </Link>
-            <a href="#" className="hover:text-primary transition-colors">Financiamento</a>
-            <a href="#" className="hover:text-primary transition-colors">Contato</a>
+
           </nav>
 
           <div className="flex items-center gap-4">
@@ -118,14 +153,32 @@ const Header = () => {
               Catálogo
             </Link>
             <Link 
-              to="/sobre" 
-              className={`block py-2 hover:text-primary transition-colors ${location.pathname === '/sobre' ? 'text-primary' : ''}`}
+              to="/favoritos" 
+              className={`block py-2 hover:text-primary transition-colors flex items-center gap-2 ${location.pathname === '/favoritos' ? 'text-primary' : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Sobre
+              <Heart className="h-4 w-4" />
+              Favoritos
+              {favoriteIds.length > 0 && (
+                <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
+                  {favoriteIds.length}
+                </span>
+              )}
             </Link>
-            <a href="#" className="block py-2 hover:text-primary transition-colors">Financiamento</a>
-            <a href="#" className="block py-2 hover:text-primary transition-colors">Contato</a>
+            <Link 
+              to="/vender-moto" 
+              className={`block py-2 hover:text-primary transition-colors ${location.pathname === '/vender-moto' ? 'text-primary' : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Vender Moto
+            </Link>
+            <Link 
+              to="/financiamento" 
+              className={`block py-2 hover:text-primary transition-colors ${location.pathname === '/financiamento' ? 'text-primary' : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Financiamento
+            </Link>
             
             {/* Mobile Theme Toggle */}
             <div className="pt-2 border-t mt-2">

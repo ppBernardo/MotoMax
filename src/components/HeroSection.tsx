@@ -1,24 +1,102 @@
 import { Button } from "@/components/ui/button";
-import { Zap, Shield, Award } from "lucide-react";
-import heroImage from "@/assets/yamaha2.jpg";
+import { Zap, Shield, Award, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import heroImage1 from "@/assets/yamaha2.jpg";
+import heroImage2 from "@/assets/kawasakiZ900.jpg";
+import heroImage3 from "@/assets/panigale-v2.jpg";
+import heroImage4 from "@/assets/r3.png";
+import heroImage5 from "@/assets/bmws100rr.jpg";
 
 interface HeroSectionProps {
   onSearch: () => void;
 }
 
 const HeroSection = ({ onSearch }: HeroSectionProps) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const heroImages = [
+    { src: heroImage1, alt: "Yamaha em destaque" },
+    { src: heroImage2, alt: "Kawasaki Z900" },
+    { src: heroImage3, alt: "Ducati Panigale V2" },
+    { src: heroImage4, alt: "Yamaha R3" },
+    { src: heroImage5, alt: "BMW S1000RR" }
+  ];
+
+  // Auto-advance carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? heroImages.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-      {/* Background */}
+      {/* Carousel Background */}
       <div className="absolute inset-0">
-        <img 
-          src={heroImage} 
-          alt="Yamaha em destaque"
-          className="w-full h-full object-cover hero-bg-image"
-          loading="eager"
-          decoding="sync"
-        />
+        <div className="relative w-full h-full">
+          {heroImages.map((image, index) => (
+            <img 
+              key={index}
+              src={image.src} 
+              alt={image.alt}
+              className={`absolute inset-0 w-full h-full object-cover hero-bg-image transition-opacity duration-1000 ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="sync"
+            />
+          ))}
+        </div>
         <div className="absolute inset-0 bg-gradient-to-r from-midnight-black/80 via-midnight-black/50 to-transparent"></div>
+        
+        {/* Navigation Arrows */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={prevImage}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white border-2 border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20"
+        >
+          <ChevronLeft className="h-5 w-5 text-gray-800" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={nextImage}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm hover:bg-white border-2 border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-20"
+        >
+          <ChevronRight className="h-5 w-5 text-gray-800" />
+        </Button>
+        
+        {/* Dots Indicator */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? 'bg-white shadow-lg' 
+                  : 'bg-white/50 hover:bg-white/70'
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
